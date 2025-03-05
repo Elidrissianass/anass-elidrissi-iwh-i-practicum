@@ -1,25 +1,36 @@
+
 doctype html
 html
-  head
-    title= title
-    meta(name="viewport" content="width=device-width, initial-scale=1")
-    link(rel="stylesheet", href="/css/style.css")
-  body
-    h1 HubSpot Contacts
-    a(href="/update-cobj") Add to this table
-    br
-    br
-    table(border="1")
-      thead
-        tr
-          th First Name
-          th Bio
-          th Food
-          th Sport
-      tbody
-        each contact in contactsData
-          tr
-            td= contact.properties.firstname
-            td= contact.properties.bio
-            td= contact.properties.food
-            td= contact.properties.sport
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title= title
+        link(rel="stylesheet", href="/css/style.css")
+        script(src="/js/script.js")
+    body
+        .container
+            header
+                h1 HubSpot Contacts
+                a.button.primary(href="/update-cobj") Add to this table
+            .card
+                .table-container
+                    table.contacts-table
+                        thead
+                            tr
+                                th First Name
+                                th Last Name
+                                th Bio
+                                th Food
+                                th Sport
+                        tbody
+                            if contactsData.length > 0
+                              each contact in contactsData
+                                tr
+                                    td= contact.properties.firstname
+                                    td= contact.properties.lastname
+                                    td= contact.properties.bio
+                                    td= contact.properties.food
+                                    td= contact.properties.sport
+                            else
+                                tr
+                                    td(colspan="4") No contacts available

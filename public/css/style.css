@@ -1,78 +1,254 @@
+/* ------------------------------------------ Global Styles ------------------------------------------ */
+
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
-body,
+:root {
+  --color-primary: #ff5c35;
+  --color-primary-hover: #e64a2e;
+  --color-secondary: #516f90;
+  --color-secondary-hover: #3e5a7a;
+  --color-background: #f5f8fa;
+  --color-card: #ffffff;
+  --color-text: #33475b;
+  --color-text-light: #f5f5f5;
+  --color-border: #e5e8eb;
+  --color-input-bg: #f9fafb;
+  --color-input-border: #cbd5e1;
+  --color-error: #f2545b;
+  --color-warning: #ffd400;
+
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-xxl: 3rem;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
 * {
-  font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Roboto, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+/* ------------------------------------------ Section Container ------------------------------------------ */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-md);
+}
+
+/* ---------------------------------------------- Header ---------------------------------------------- */
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xl);
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
 }
 
 h1 {
-  margin: 1rem;
+  color: var(--color-text);
+  font-weight: 700;
+  font-size: 1.75rem;
+  margin-top: var(--spacing-lg);
 }
 
-.cards {
-  display: flex;
+/* ------------------------------------------------ Card ------------------------------------------------ */
+
+.card {
+  background-color: var(--color-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
+}
+
+.card.error {
+  background-color: var(--color-error);
+  color: var(--color-text-light);
+  font-weight: 500;
+  margin-bottom: var(--spacing-xl);
+  padding: var(--spacing-md) var(--spacing-xl) !important;
+}
+
+.card.warning {
+  background-color: var(--color-warning);
+  color: var(--color-text-light);
+  font-weight: 500;
+  margin-bottom: var(--spacing-xl);
+  padding: var(--spacing-md) var(--spacing-xl) !important;
+}
+
+/* ------ Button styles ------ */
+.button {
+  display: inline-flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.button.primary {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.button.primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.button.secondary {
+  background-color: white;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.button.secondary:hover {
+  background-color: var(--color-background);
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-secondary);
+  transition: all 0.2s ease;
+}
+
+.icon-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ------ Table styles ------ */
+
+.table-container {
+  overflow-x: auto;
+}
+
+.contacts-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.contacts-table th {
+  background-color: var(--color-background);
+  padding: var(--spacing-md);
+  font-weight: 600;
+  color: var(--color-secondary);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.contacts-table td {
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.contacts-table tbody tr:hover {
+  background-color: var(--color-background);
+}
+
+.actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+/* ------ Form styles ------ */
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.form-row {
+  display: flex;
+  gap: var(--spacing-lg);
   flex-wrap: wrap;
 }
 
-.card {
-  flex-basis: 31%;
-  margin: 1rem 0.4rem;
-  padding: 1rem 0.4rem 2.5rem 0.4rem;
-  border: solid 1px lightgrey;
-  border-radius: 15px;
-  box-shadow: 3px 2px 6px lightgrey;
+.form-row .form-group {
+  flex: 1 1 calc(50% - var(--spacing-lg));
+  min-width: 250px;
 }
 
-.card__email {
-  font-size: 1rem;
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
 }
 
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-th {
-  background: #fff;
-  padding: 12px;
-  text-align: left;
-  font-weight: 600;
-}
-td {
-  padding: 10px 12px;
-  border-bottom: 1px solid #e5e7eb;
+.form-group label {
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--color-text);
 }
 
-.form-wrapper {
-  font-size: 18px;
-  max-width: 768px;
-  margin: 2rem auto;
-  padding: 2rem;
-  border: solid 1px lightgrey;
-  border-radius: 15px;
-  box-shadow: 3px 2px 6px lightgrey;
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.625rem;
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-input-bg);
+  font-family: inherit;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  transition: border-color 0.2s ease;
 }
 
-label,
-input,
-select {
-  margin-top: 5px;
-  display: block;
-  font-size: inherit;
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(255, 92, 53, 0.1);
 }
 
-input[type='text'],
-input[type='email'],
-select {
-  padding: 0.25rem;
-}
-
-input[type='submit'] {
-  background-color: lightgrey;
-  border: none;
-  padding: 0.375rem 1rem;
-  margin-top: 10px;
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
 }
