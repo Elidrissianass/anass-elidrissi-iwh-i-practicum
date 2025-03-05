@@ -1,0 +1,43 @@
+doctype html
+html
+  head
+    title= title
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    link(rel="stylesheet", href="/css/style.css")
+  body
+    h1 Update Custom Object Form
+    a(href="/") Return to the homepage
+    br
+    br
+    form.form-wrapper(action="/update-cobj" method="POST")
+      label(for="firstname") First Name:
+      br
+      input(type="text" name="firstname" required)
+      br
+      label(for="lastname") Last Name:
+      br
+      input(type="text" name="lastname" required)
+      br
+      label(for="email") Email:
+      br
+      input(type="email" name="email" required)
+      br
+      label(for="bio") Bio:
+      br
+      input(type="text" name="bio")
+      br
+      label(for="food") Favorite Food:
+      br
+      select(name="food")
+        option(value="") -- Select Food --
+        option(value="dragon-fruit") Dragon Fruit
+        option(value="pasta") Pasta
+      br
+      label(for="sport") Favorite Sport:
+      br
+      input(type="text" name="sport")
+      br
+      br
+      input(type="submit" value="Submit")
+
+
