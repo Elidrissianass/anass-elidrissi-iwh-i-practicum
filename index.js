@@ -24,9 +24,18 @@ app.get('/', async (req, res) => {
     'Content-Type': 'application/json',
   };
   const params = {
-    properties: 'firstname,lastname,bio,food,sport',
+    properties: 'id,firstname,lastname,bio,food,sport',
   };
   try {
+    if (error) {
+      res.render('homepage', {
+        title: 'Contacts | HubSpot APIs',
+        contactsData: [],
+        errorMessage: decodeURIComponent(error),
+      });
+      return;
+    }
+
     const response = await axios.get(url, { headers, params });
     if (response.status !== 200) {
       throw new Error(
@@ -40,7 +49,6 @@ app.get('/', async (req, res) => {
     res.render('homepage', {
       title: 'Contacts | HubSpot APIs',
       contactsData,
-      errorMessage: error ? decodeURIComponent(error) : null,
     });
   } catch (error) {
     console.error(error);
@@ -65,24 +73,21 @@ app.get('/update-cobj', (req, res) => {
 // * Code for Route 3 goes here
 
 app.post('/update-cobj', async (req, res) => {
-  // * Extracting the form data
-  let { firstname, lastname, bio, food, sport } = req.body;
+  const fields = ['firstname', 'lastname', 'bio', 'food', 'sport'];
+  let contactData = {};
+
   try {
-    // * Validating the form data
-    if (!firstname || !lastname || !bio || !food || !sport) {
-      throw new Error('All fields are required.');
+    // * Validating and trimming the form data
+    for (const field of fields) {
+      if (!req.body[field]) {
+        throw new Error('All fields are required.');
+      }
+      contactData[field] = req.body[field].trim();
     }
-    // * Trimming the form data from any white spaces
-    const trimmedData = {
-      firstname: firstname.trim(),
-      lastname: lastname.trim(),
-      bio: bio.trim(),
-      food: food.trim(),
-      sport: sport.trim(),
-    };
     // * Validating the food property
-    if (trimmedData.food !== 'dragon-fruit' && trimmedData.food !== 'pasta') {
-      throw new Error('Invalid food provided.');
+    const validFoods = ['dragon-fruit', 'pasta'];
+    if (!validFoods.includes(contactData.food)) {
+      throw new Error('Invalid food selection.');
     }
     // * Creating a new contact
     const url = 'https://api.hubapi.com/crm/v3/objects/contacts';
@@ -92,7 +97,7 @@ app.post('/update-cobj', async (req, res) => {
     };
     const response = await axios.post(
       url,
-      { properties: trimmedData },
+      { properties: contactData },
       { headers }
     );
     // * Handling the response
@@ -102,11 +107,77 @@ app.post('/update-cobj', async (req, res) => {
       );
     }
     // * Redirecting to the homepage
-    res.redirect('/');
+    res
+      .status(201)
+      .json({ success: true, message: 'Contact added successfully' });
   } catch (error) {
     // * Handling the error
     console.error(error);
-    res.redirect(`/update-cobj?error=${encodeURIComponent(error.message)}`);
+    res.status(500).json({ success: false, message: 'Error adding contact' });
+  }
+});
+
+// * Code to update a contact
+
+app.patch('/update-contact/:id', async (req, res) => {
+  const { id } = req.params;
+
+  const { firstname, lastname, bio, food, sport } = req.body;
+
+  try {
+    if (!id) {
+      throw new Error('Contact ID is required.');
+    }
+
+    if (!firstname || !lastname || !bio || !food || !sport) {
+      throw new Error('All fields are required.');
+    }
+
+    const trimmedData = {
+      firstname: firstname.trim(),
+      lastname: lastname.trim(),
+      bio: bio.trim(),
+      food: food.trim(),
+      sport: sport.trim(),
+    };
+
+    const validFoods = ['dragon-fruit', 'pasta'];
+    if (!validFoods.includes(trimmedData.food)) {
+      throw new Error('Invalid food selection.');
+    }
+
+    await axios.patch(
+      `https://api.hubapi.com/crm/v3/objects/contacts/${id}`,
+      { properties: trimmedData },
+      { headers: { Authorization: `Bearer ${PRIVATE_APP_ACCESS}` } }
+    );
+
+    res
+      .status(200)
+      .json({ success: true, message: 'Contact updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Error updating contact' });
+  }
+});
+
+// * Code to delete a contact
+
+app.delete('/delete-contact/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    if (!id) {
+      throw new Error('Contact ID is required.');
+    }
+
+    await axios.delete(`https://api.hubapi.com/crm/v3/objects/contacts/${id}`, {
+      headers: { Authorization: `Bearer ${PRIVATE_APP_ACCESS}` },
+    });
+
+    res.sendStatus(204);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Error deleting contact' });
   }
 });
 

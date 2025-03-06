@@ -1,0 +1,34 @@
+#editModal.modal
+  .modal-content
+    span.modal-close.close-action &times;
+    h2 Edit Contact Information
+    br
+    form#editForm.contact-form(onSubmit='updateContact(event)')
+        .form-row
+            .form-group
+                label(for='to-update-firstname') First Name
+                    span.required  *
+                input#to-update-firstname(type='text' name='to-update-firstname' required='')
+            .form-group
+                label(for='to-update-lastname') Last Name
+                    span.required  *
+                input#to-update-lastname(type='text' name='to-update-lastname' required='')
+        .form-group
+            label(for='to-update-bio') Bio
+                span.required  *
+            textarea#to-update-bio(name='to-update-bio' required='')
+        .form-row
+            .form-group
+                label(for="to-update-food") Favorite Food
+                    span.required  *
+                select#to-update-food(name="to-update-food")
+                    option(value="") -- Select Food --
+                    option(value="dragon-fruit") Dragon Fruit
+                    option(value="pasta") Pasta
+            .form-group
+                label(for='to-update-sport') Sport
+                    span.required  *
+                input#to-update-sport(type='text' name='to-update-sport' required='')
+        .form-actions
+            button.button.close-action Cancel
+            button.button.primary(type='submit') Save Changes
