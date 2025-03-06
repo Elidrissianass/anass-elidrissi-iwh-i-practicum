@@ -5,7 +5,6 @@ html
         meta(name="viewport" content="width=device-width, initial-scale=1.0")
         title= title
         link(rel="stylesheet", href="/css/style.css")
-        script(src="/js/script.js")
     body
         .container
             header
@@ -14,26 +13,32 @@ html
             if errorMessage
                 .card.error= errorMessage
             .card
-                form.contact-form(action="/update-cobj" method="POST")
+                form.contact-form(onSubmit='addContact(event)')
                     .form-row
                         .form-group
                             label(for="firstname") First Name
+                                span.required  *
                             input#firstname(type="text" name="firstname" required)
                         .form-group
                             label(for="lastname") Last Name
+                                span.required  *
                             input#lastname(type="text" name="lastname" required)
                     .form-group
                         label(for="bio") Bio
+                            span.required  *
                         textarea#bio(name="bio" rows="3")
                     .form-row
                         .form-group
                             label(for="food") Favorite Food
+                                span.required  *
                             select#food(name="food")
                                 option(value="") -- Select Food --
                                 option(value="dragon-fruit") Dragon Fruit
                                 option(value="pasta") Pasta
                         .form-group
                             label(for="sport") Favorite Sport
+                                span.required  *
                             input#sport(type="text" name="sport")
                     .form-actions
                         button.button.primary(type="submit") Submit
+        script(src="/js/update-cobj.script.js")

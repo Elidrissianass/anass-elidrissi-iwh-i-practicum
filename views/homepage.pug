@@ -6,12 +6,13 @@ html
         meta(name="viewport" content="width=device-width, initial-scale=1.0")
         title= title
         link(rel="stylesheet", href="/css/style.css")
-        script(src="/js/script.js")
     body
         .container
             header
                 h1 HubSpot Contacts
                 a.button.primary(href="/update-cobj") Add to this table
+            if errorMessage
+                .card.error= errorMessage
             .card
                 .table-container
                     table.contacts-table
@@ -22,6 +23,7 @@ html
                                 th Bio
                                 th Food
                                 th Sport
+                                th Actions
                         tbody
                             if contactsData.length > 0
                               each contact in contactsData
@@ -31,6 +33,22 @@ html
                                     td= contact.properties.bio
                                     td= contact.properties.food
                                     td= contact.properties.sport
+                                    td
+                                      .actions
+                                            button.icon-button.edit(onclick=`updateContactPop(${contact.id},${JSON.stringify(contact.properties)})`)
+                                                svg(width='20' height='20' viewbox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg')
+                                                    g(stroke='#1C274C' stroke-width='1.5')
+                                                        path(d='M4 22h16' stroke-linecap='round')
+                                                        path(d='m13.888 3.663.742-.742a3.146 3.146 0 1 1 4.449 4.45l-.742.74m-4.449-4.448s.093 1.576 1.483 2.966c1.39 1.39 2.966 1.483 2.966 1.483m-4.449-4.45L7.071 10.48c-.462.462-.693.692-.891.947a5.24 5.24 0 0 0-.599.969c-.139.291-.242.601-.449 1.22l-.875 2.626m14.08-8.13-6.817 6.817c-.462.462-.692.692-.947.891-.3.234-.625.435-.969.599-.291.139-.601.242-1.22.448l-2.626.876m0 0-.641.213a.848.848 0 0 1-1.073-1.073l.213-.641m1.501 1.5-1.5-1.5')
+                                            button.icon-button.delete(onclick=`deleteContactPop(${contact.id})`)
+                                                svg(width='20' height='20' viewbox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg')
+                                                    g(stroke='#1C274C' stroke-width='1.5')
+                                                        path(d='M20.5 6h-17M18.833 8.5l-.46 6.9c-.177 2.654-.265 3.981-1.13 4.79-.865.81-2.196.81-4.856.81h-.774c-2.66 0-3.991 0-4.856-.81-.865-.809-.954-2.136-1.13-4.79l-.46-6.9M9.5 11l.5 5M14.5 11l-.5 5' stroke-linecap='round')
+                                                        path(d='M6.5 6h.11a2 2 0 0 0 1.83-1.32l.034-.103.097-.291c.083-.249.125-.373.18-.479a1.5 1.5 0 0 1 1.094-.788C9.962 3 10.093 3 10.355 3h3.29c.262 0 .393 0 .51.019a1.5 1.5 0 0 1 1.094.788c.055.106.097.23.18.479l.097.291A2 2 0 0 0 17.5 6')
                             else
                                 tr
                                     td(colspan="4") No contacts available
+
+        include popup-models/update.pug
+        include popup-models/delete.pug
+        script(src="/js/main.script.js")
